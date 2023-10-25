@@ -6,7 +6,7 @@
 
 class StrategyBubbleSort : public StrategyIListSort
 {
-	std::vector<int> doSortAlgorithm(std::vector<int> toSort) const override;
+	std::vector<int> doSortAlgorithm(std::vector<int> toSort) override;
 };
 
 #endif

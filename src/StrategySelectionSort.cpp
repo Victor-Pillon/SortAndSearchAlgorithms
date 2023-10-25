@@ -1,7 +1,7 @@
 #include "StrategySelectionSort.h"
 
 
-std::vector<int> StrategySelectionSort::doSortAlgorithm(std::vector<int> toSort) const
+std::vector<int> StrategySelectionSort::doSortAlgorithm(std::vector<int> toSort)
 {
 	std::vector<int> sortedArray = toSort; // Create a copy of the input vector
     int n = sortedArray.size();

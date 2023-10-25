@@ -1,7 +1,7 @@
 #include "StrategyBubbleSort.h"
 
 
-std::vector<int> StrategyBubbleSort::doSortAlgorithm(std::vector<int> toSort) const
+std::vector<int> StrategyBubbleSort::doSortAlgorithm(std::vector<int> toSort)
 {
 	std::vector<int> sortedArray = toSort;  // Create a copy of the input vector
     int n = sortedArray.size();

@@ -8,7 +8,7 @@ class StrategyIListSort
 {
 	public:
 		virtual ~StrategyIListSort() = default;
-		virtual std::vector<int> doSortAlgorithm(std::vector<int> toSort) const = 0;
+		virtual std::vector<int> doSortAlgorithm(std::vector<int> toSort) = 0;
 };
 
 #endif
