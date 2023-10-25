@@ -1,9 +1,9 @@
 #include "ContextListSearch.h"
 
-int ContextListSearch::searchVector(std::vector<int> toSearch) const
+int ContextListSearch::searchVector(const std::vector<int> &toSearch, int target) const
 {
 	if (searchStrategy) {
-        return searchStrategy->doSearchAlgorithm(toSearch);
+        return searchStrategy->doSearchAlgorithm(toSearch, target);
     } else {
         std::cout << "Context: Strategy isn't set" << std::endl;
         return -1;

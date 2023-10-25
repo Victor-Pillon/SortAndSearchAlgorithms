@@ -11,7 +11,7 @@ class ContextListSearch
 	public:
 		explicit ContextListSearch(std::unique_ptr<StrategyIListSearch> &&strategy = {}) : searchStrategy(std::move(strategy)){};
 		void setStrategy(std::unique_ptr<StrategyIListSearch> &&strategy);
-		int searchVector(std::vector<int> toSearch) const;
+		int searchVector(const std::vector<int> &toSearch, int target) const;
 	private:
 		std::unique_ptr<StrategyIListSearch> searchStrategy;
 };
