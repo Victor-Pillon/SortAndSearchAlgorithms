@@ -8,7 +8,7 @@ class StrategyIListSearch
 {
 	public:
 		virtual ~StrategyIListSearch() = default;
-		virtual int doSearchAlgorithm(const std::vector<int> &toSearch, int target) const = 0;
+		virtual int doSearchAlgorithm(const std::vector<int> &toSearch, int target) = 0;
 };
 
 #endif

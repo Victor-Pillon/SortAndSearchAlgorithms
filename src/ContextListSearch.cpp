@@ -1,6 +1,6 @@
 #include "ContextListSearch.h"
 
-int ContextListSearch::searchVector(const std::vector<int> &toSearch, int target) const
+int ContextListSearch::searchVector(const std::vector<int> &toSearch, int target)
 {
 	if (searchStrategy) {
         return searchStrategy->doSearchAlgorithm(toSearch, target);

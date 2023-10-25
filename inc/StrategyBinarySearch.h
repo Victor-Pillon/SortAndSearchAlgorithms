@@ -6,7 +6,7 @@
 
 class StrategyBinarySearch : public StrategyIListSearch
 {
-	int doSearchAlgorithm(const std::vector<int> &toSearch, int target) const override;
+	int doSearchAlgorithm(const std::vector<int> &toSearch, int target) override;
 };
 
 #endif

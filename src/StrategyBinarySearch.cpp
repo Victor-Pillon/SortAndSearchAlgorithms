@@ -1,6 +1,6 @@
 #include "StrategyBinarySearch.h"
 
-int StrategyBinarySearch::doSearchAlgorithm(const std::vector<int> &toSearch, int target) const
+int StrategyBinarySearch::doSearchAlgorithm(const std::vector<int> &toSearch, int target)
 {
 	int left = 0;
     int right = toSearch.size() - 1;
