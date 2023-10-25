@@ -1,5 +1,5 @@
-#ifndef LIST_SORTER_CONTEXT_H
-#define LIST_SORTER_CONTEXT_H
+#ifndef CONTEXT_LIST_SORT_H
+#define CONTEXT_LIST_SORT_H
 
 #include <iostream>
 #include <memory>

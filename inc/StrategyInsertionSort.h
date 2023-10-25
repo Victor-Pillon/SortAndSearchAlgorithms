@@ -1,5 +1,5 @@
-#ifndef INSERTION_SORT_STRATEGY_H
-#define INSERTION_SORT_STRATEGY_H
+#ifndef STRATEGY_INSERTION_SORT_H
+#define STRATEGY_INSERTION_SORT_H
 
 #include "StrategyInterfaceListSort.h"
 #include <iostream>

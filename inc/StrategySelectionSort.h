@@ -1,5 +1,5 @@
-#ifndef SELECTION_SORT_STRATEGY_H
-#define SELECTION_SORT_STRATEGY_H
+#ifndef STRATEGY_SELECTION_SORT_H
+#define STRATEGY_SELECTION_SORT_H
 
 #include "StrategyInterfaceListSort.h"
 #include <iostream>

@@ -1,5 +1,5 @@
-#ifndef LIST_SEARCH_CONTEXT_H
-#define LIST_SEARCH_CONTEXT_H
+#ifndef CONTEXT_LIST_SEARCH_H
+#define CONTEXT_LIST_SEARCH_H
 
 #include <iostream>
 #include <memory>

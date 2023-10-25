@@ -1,5 +1,5 @@
-#ifndef BUBBLE_SORT_STRATEGY_H
-#define BUBBLE_SORT_STRATEGY_H
+#ifndef STRATEGY_BUBBLE_SORT_H
+#define STRATEGY_BUBBLE_SORT_H
 
 #include "StrategyInterfaceListSort.h"
 #include <iostream>
