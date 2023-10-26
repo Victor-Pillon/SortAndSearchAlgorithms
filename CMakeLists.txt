@@ -15,6 +15,7 @@ add_executable(
     ${SOURCES_DIR}/ProxyListSearch.cpp
     ${SOURCES_DIR}/ProxyListSort.cpp
     ${SOURCES_DIR}/StrategyBinarySearch.cpp
+    ${SOURCES_DIR}/StrategyImprovedBubbleSort.cpp
     ${SOURCES_DIR}/StrategyBubbleSort.cpp
     ${SOURCES_DIR}/StrategyInsertionSort.cpp
     ${SOURCES_DIR}/StrategyLinearSearch.cpp
