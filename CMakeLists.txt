@@ -20,6 +20,7 @@ add_executable(
     ${SOURCES_DIR}/StrategyInsertionSort.cpp
     ${SOURCES_DIR}/StrategyLinearSearch.cpp
     ${SOURCES_DIR}/StrategyMergeSort.cpp
+    ${SOURCES_DIR}/StrategyQuickSort.cpp
     ${SOURCES_DIR}/StrategySelectionSort.cpp
     ${SOURCES_DIR}/Main.cpp 
     )
