@@ -3,7 +3,6 @@
 
 #include "StrategyInterfaceListSearch.h"
 #include <memory>
-#include <iostream>
 #include <chrono>
 
 class ProxyListSearchTimer: public StrategyIListSearch

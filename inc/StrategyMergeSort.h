@@ -2,7 +2,6 @@
 #define STRATEGY_MERGE_SORT_H
 
 #include "StrategyInterfaceListSort.h"
-#include <iostream>
 
 class StrategyMergeSort : public StrategyIListSort
 {

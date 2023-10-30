@@ -2,7 +2,6 @@
 #define STRATEGY_BINARY_SEARCH_H
 
 #include "StrategyInterfaceListSearch.h"
-#include <iostream>
 
 class StrategyBinarySearch : public StrategyIListSearch
 {

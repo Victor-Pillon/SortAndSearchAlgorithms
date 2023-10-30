@@ -3,7 +3,6 @@
 
 #include "StrategyInterfaceListSort.h"
 #include <memory>
-#include <iostream>
 #include <chrono>
 
 class ProxyListSortTimer: public StrategyIListSort

@@ -2,7 +2,6 @@
 #define STRATEGY_SELECTION_SORT_H
 
 #include "StrategyInterfaceListSort.h"
-#include <iostream>
 
 class StrategySelectionSort : public StrategyIListSort
 {

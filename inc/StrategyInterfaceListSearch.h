@@ -3,7 +3,6 @@
 
 #include <vector>
 
-
 class StrategyIListSearch
 {
 	public:

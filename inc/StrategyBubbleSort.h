@@ -2,7 +2,6 @@
 #define STRATEGY_BUBBLE_SORT_H
 
 #include "StrategyInterfaceListSort.h"
-#include <iostream>
 
 class StrategyBubbleSort : public StrategyIListSort
 {

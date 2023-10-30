@@ -2,7 +2,6 @@
 #define STRATEGY_QUICK_SORT_H
 
 #include "StrategyInterfaceListSort.h"
-#include <iostream>
 #include <stack>
 
 class StrategyQuickSort : public StrategyIListSort
