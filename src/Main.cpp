@@ -3,12 +3,18 @@
 #include <memory>
 #include <random>
 
+#include "Defines.h"
+
 #include "ContextListSearch.h"
 #include "ContextListSort.h"
 
 #include "StrategyBubbleSort.h"
+#include "StrategyImprovedBubbleSort.h"
 #include "StrategyInsertionSort.h"
 #include "StrategySelectionSort.h"
+#include "StrategyMergeSort.h"
+#include "StrategyQuickSort.h"
+#include "StrategyHeapSort.h"
 
 #include "StrategyBinarySearch.h"
 #include "StrategyLinearSearch.h"
@@ -28,6 +34,7 @@ void printVector(std::vector<int> vec)
 
 void populateRandomVector(std::vector<int> &randomVector, int size)
 {
+	randomVector.clear();
 	std::random_device rd;  // Create a random device
     std::mt19937 gen(rd()); // Initialize a Mersenne Twister pseudo-random generator
 
@@ -42,35 +49,74 @@ void populateRandomVector(std::vector<int> &randomVector, int size)
     }
 }
 
+void populateOrderedVector(std::vector<int> &orderedVector, int size)
+{
+	orderedVector.clear();
+
+	for(int i=0; i<size; i++)
+		orderedVector.push_back(i);
+}
+
+void populateDisorderedVector(std::vector<int> &disorderedVector, int size)
+{
+	disorderedVector.clear();
+
+	for(int i=size; i>size; i--)
+		disorderedVector.push_back(i);
+} 
+
 int main(int argc, char** argv) {
-	//ListSorterContext sorterContext(std::unique_ptr<ListSorterStrategy>(new BubbleSortStrategy()));
 	ContextListSort sorterContext;
 	ContextListSearch searchContext;
+	ProxyListSearchTimer* searchProxy;
+	ProxyListSortTimer* sortProxy; 
 
 	std::vector<int> randomVector;
-	populateRandomVector(randomVector, 10);
+	std::vector<int> orderedVector;
+	std::vector<int> disorderedVector;
 
-	// Uses normal strategy to organize array
-	// sorterContext.setStrategy(std::unique_ptr<StrategyIListSort>(new StrategyInsertionSort()));
-	// randomVector = sorterContext.sortedVector(randomVector);
-	// //printVector(randomVector);
+	Menu menu = Menu::QUANTITY;
+	int tempOption;
+	QuantityOptions selectedQuantity = QuantityOptions::ALL_QUANTITIES;
+	OrderOptions selectedOrder = OrderOptions::ALL_ORDERS;
+	AlgorithmOptions selectedAlgorithm = AlgorithmOptions::ALL_ALGORITHMS;
 
-	// Uses a proxy to get the time of the sort in nanoseconds
-	ProxyListSortTimer* sortProxy = new ProxyListSortTimer(std::unique_ptr<StrategyIListSort>(new StrategyInsertionSort()));
-	sorterContext.setStrategy(std::unique_ptr<StrategyIListSort>(sortProxy));
-	randomVector = sorterContext.sortedVector(randomVector);
-	std::cout << "time it took for insertion sort: " << sortProxy->getExecutionTime() << " nanoseconds" << std::endl;
-	printVector(randomVector);
+	while (true)
+	{
+		switch (menu)
+		{
+		case Menu::QUANTITY:
+			std::cout << "Select the quantity to be analysed: " << std::endl; 
+			std::cout << "1. 1.000" << std::endl; 
+			std::cout << "2. 10.000" << std::endl; 
+			std::cout << "3. 100.00" << std::endl;
+			std::cout << "4. All" << std::endl;
+			std::cout << "Selected:";
+			std::cin >> tempOption; 
+			selectedQuantity = static_cast<QuantityOptions>(tempOption);
+			menu = Menu::ORDER;
+			break;
 
-
-	// Uses normal strategy to search array
-	searchContext.setStrategy(std::unique_ptr<StrategyIListSearch>(new StrategyLinearSearch()));
-	std::cout << "found item on position: " << searchContext.searchVector(randomVector, 9) << std::endl;
-
-
-	// Uses a proxy to get the time of the search in nanoseconds
-	ProxyListSearchTimer* searchProxy = new ProxyListSearchTimer(std::unique_ptr<StrategyIListSearch>(new StrategyBinarySearch()));
-	searchContext.setStrategy(std::unique_ptr<StrategyIListSearch>(searchProxy));
-	std::cout << "found item on position: " << searchContext.searchVector(randomVector, 9) << std::endl;	
-	std::cout << "time it took to find the item: " << searchProxy->getExecutionTime() << " nanoseconds" << std::endl;
+		case Menu::ORDER:
+			std::cout << "Select the order to be analysed: " << std::endl; 
+			std::cout << "1. Ordered" << std::endl; 
+			std::cout << "2. Random" << std::endl; 
+			std::cout << "3. Disordered" << std::endl;
+			std::cout << "4. All" << std::endl;
+			std::cout << "5. Back" << std::endl;
+			std::cout << "Selected:";
+			std::cin >> tempOption; 
+			selectedOrder = static_cast<OrderOptions>(tempOption);
+			menu = Menu::ALGORITHM;
+			break;
+		
+		case Menu::ALGORITHM:
+			/* code */
+			break;
+		
+		default:
+			break;
+		}
+	}
+	return 0;
 }
