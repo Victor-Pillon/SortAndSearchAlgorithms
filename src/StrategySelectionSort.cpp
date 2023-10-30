@@ -7,13 +7,18 @@ std::vector<int> StrategySelectionSort::doSortAlgorithm(std::vector<int> toSort)
     int n = sortedArray.size();
 
     for (int i = 0; i < n - 1; i++) {
+        exchanges++;
         int minIndex = i;
         for (int j = i + 1; j < n; j++) {
+            comparisons++;
             if (sortedArray[j] < sortedArray[minIndex]) {
+                exchanges++;
                 minIndex = j;
             }
         }
+        comparisons++;
         if (minIndex != i) {
+            exchanges += 3;
             std::swap(sortedArray[i], sortedArray[minIndex]);
         }
     }
