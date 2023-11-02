@@ -1,27 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <random>
-
 #include "Defines.h"
-
-#include "ContextListSearch.h"
-#include "ContextListSort.h"
-
-#include "StrategyBubbleSort.h"
-#include "StrategyImprovedBubbleSort.h"
-#include "StrategyInsertionSort.h"
-#include "StrategySelectionSort.h"
-#include "StrategyMergeSort.h"
-#include "StrategyQuickSort.h"
-#include "StrategyHeapSort.h"
-
-#include "StrategyBinarySearch.h"
-#include "StrategyLinearSearch.h"
-
-#include "ProxyListSearchTimer.h"
-#include "ProxyListSortTimer.h"
-
 
 void printVector(std::vector<int> vec)
 {
@@ -65,55 +42,78 @@ void populateDisorderedVector(std::vector<int> &disorderedVector, int size)
 		disorderedVector.push_back(i);
 } 
 
-int main(int argc, char** argv) {
-	ContextListSort sorterContext;
-	ContextListSearch searchContext;
-	ProxyListSearchTimer* searchProxy;
-	ProxyListSortTimer* sortProxy; 
+void displayQuantityMenu()
+{
+	using namespace std;
 
-	std::vector<int> randomVector;
-	std::vector<int> orderedVector;
-	std::vector<int> disorderedVector;
+	cout << "Select the quantity to be analysed: " << endl; 
+	cout << "1. 1.000" << endl; 
+	cout << "2. 10.000" << endl; 
+	cout << "3. 100.00" << endl;
+	cout << "4. All" << endl;
+	cout << "Selected:";
+	cin >> tempOption; 
+	selectedQuantity = static_cast<QuantityOptions>(tempOption);
+	menu = Menu::ORDER;
+}
 
-	Menu menu = Menu::QUANTITY;
-	int tempOption;
-	QuantityOptions selectedQuantity = QuantityOptions::ALL_QUANTITIES;
-	OrderOptions selectedOrder = OrderOptions::ALL_ORDERS;
-	AlgorithmOptions selectedAlgorithm = AlgorithmOptions::ALL_ALGORITHMS;
+void displayOrdersMenu()
+{
+	using namespace std;
 
+	cout << "Select the order to be analysed: " << endl; 
+	cout << "1. Ordered" << endl; 
+	cout << "2. Random" << endl; 
+	cout << "3. Disordered" << endl;
+	cout << "4. All" << endl;
+	cout << "5. Back" << endl;
+	cout << "Selected:";
+	cin >> tempOption; 
+	selectedOrder = static_cast<OrderOptions>(tempOption);
+	menu = selectedOrder != OrderOptions::BACK_ORDERS ? Menu::ALGORITHM : Menu::QUANTITY;
+}
+
+void displayAlgorithmMenu()
+{
+	using namespace std;
+
+	cout << "Select the Algorithm to be analysed: " << endl; 
+	cout << "1. Bubble Sort" << endl; 
+	cout << "2. Improved Bubble Sort" << endl; 
+	cout << "3. Insertion Sort" << endl;
+	cout << "4. Selection Sort" << endl;
+	cout << "5. Merge Sort" << endl;
+	cout << "6. Quick Sort" << endl;
+	cout << "7. Heap Sort" << endl;
+	cout << "8. All" << endl;
+	cout << "9. Back" << endl;
+	cout << "Selected:";
+	cin >> tempOption; 
+	selectedAlgorithm = static_cast<AlgorithmOptions>(tempOption);
+	cout << selectedAlgorithm;
+	menu = selectedAlgorithm != AlgorithmOptions::BACK_ALGORITHMS ? Menu::QUANTITY : Menu::ORDER;
+}
+
+
+int main(int argc, char** argv) 
+{
 	while (true)
 	{
+		system("cls");
 		switch (menu)
 		{
 		case Menu::QUANTITY:
-			std::cout << "Select the quantity to be analysed: " << std::endl; 
-			std::cout << "1. 1.000" << std::endl; 
-			std::cout << "2. 10.000" << std::endl; 
-			std::cout << "3. 100.00" << std::endl;
-			std::cout << "4. All" << std::endl;
-			std::cout << "Selected:";
-			std::cin >> tempOption; 
-			selectedQuantity = static_cast<QuantityOptions>(tempOption);
-			menu = Menu::ORDER;
+			displayQuantityMenu();
 			break;
 
 		case Menu::ORDER:
-			std::cout << "Select the order to be analysed: " << std::endl; 
-			std::cout << "1. Ordered" << std::endl; 
-			std::cout << "2. Random" << std::endl; 
-			std::cout << "3. Disordered" << std::endl;
-			std::cout << "4. All" << std::endl;
-			std::cout << "5. Back" << std::endl;
-			std::cout << "Selected:";
-			std::cin >> tempOption; 
-			selectedOrder = static_cast<OrderOptions>(tempOption);
-			menu = Menu::ALGORITHM;
+			displayOrdersMenu();
 			break;
-		
+
 		case Menu::ALGORITHM:
-			/* code */
+			displayAlgorithmMenu();
 			break;
-		
+
 		default:
 			break;
 		}
