@@ -3,6 +3,10 @@
 #include <random>
 #include <stdlib.h>
 #include <iostream>
+#include <stdexcept>
+#include <string>
+#include <map>
+#include <algorithm>
 
 #include "ContextListSearch.h"
 #include "ContextListSort.h"
@@ -25,34 +29,64 @@
 enum Menu {
 	QUANTITY = 0,
 	ORDER,
-	ALGORITHM
+	ALGORITHM,
+	START
+};
+
+enum MenuReturns
+{
+	GO_NEXT = 0,
+	GO_BACK,
+	STAY
 };
 
 enum QuantityOptions {
-	ONE_THOUSAND = 1,
+	ONE_THOUSAND = 0,
 	TEN_THOUSAND,
 	ONE_HUNDREAD_THOUSAND,
-	ALL_QUANTITIES,
 };
 
 enum OrderOptions {
-	ORDERED = 1,
+	ORDERED = 0,
 	DISORDERED,
 	RANDOM,
-	ALL_ORDERS,
-	BACK_ORDERS
 };
 
 enum AlgorithmOptions {
-	BUBBLE_SORT = 1,
+	BUBBLE_SORT = 0,
 	IMPROVED_BUBBLE_SORT,
 	INSERTION_SORT,
 	SELECTION_SORT,
 	MERGE_SORT,
 	QUICK_SORT,
 	HEAP_SORT,
-	ALL_ALGORITHMS,
-	BACK_ALGORITHMS
+};
+
+std::map<QuantityOptions, std::string> quantitiesOptions = {
+	{QuantityOptions::ONE_THOUSAND, "1.000"},
+	{QuantityOptions::TEN_THOUSAND, "10.000"},
+	{QuantityOptions::ONE_HUNDREAD_THOUSAND, "100.000"},
+};
+
+std::map<OrderOptions, std::string> ordersOptions = {
+	{OrderOptions::ORDERED, "Ordered"},
+	{OrderOptions::DISORDERED, "Disordered"},
+	{OrderOptions::RANDOM, "Random"}
+};
+
+std::map<AlgorithmOptions, std::string> algorithmOptions = {
+	{AlgorithmOptions::BUBBLE_SORT, "Bubble Sort"},
+	{AlgorithmOptions::IMPROVED_BUBBLE_SORT, "Improved Bubble Sort"},
+	{AlgorithmOptions::INSERTION_SORT, "Insertion Sort"},
+	{AlgorithmOptions::SELECTION_SORT, "Selection Sort"},
+	{AlgorithmOptions::MERGE_SORT, "Merge Sort"},
+	{AlgorithmOptions::QUICK_SORT, "Quick Sort"},
+	{AlgorithmOptions::HEAP_SORT, "Heap Sort"},
+};
+
+std::map<MenuReturns, std::string> menuOptions = {
+	{MenuReturns::GO_NEXT, "Next"},
+	{MenuReturns::GO_BACK, "Back"},
 };
 
 ContextListSort sorterContext;
@@ -64,8 +98,9 @@ std::vector<int> randomVector;
 std::vector<int> orderedVector;
 std::vector<int> disorderedVector;
 
-Menu menu = Menu::QUANTITY;
+Menu currentMenu = Menu::QUANTITY;
 int tempOption;
-QuantityOptions selectedQuantity = QuantityOptions::ALL_QUANTITIES;
-OrderOptions selectedOrder = OrderOptions::ALL_ORDERS;
-AlgorithmOptions selectedAlgorithm = AlgorithmOptions::ALL_ALGORITHMS;
+MenuReturns menuReturn;
+std::vector<QuantityOptions> selectedQuantities;
+std::vector<OrderOptions> selectedOrders;
+std::vector<AlgorithmOptions> selectedAlgorithms;

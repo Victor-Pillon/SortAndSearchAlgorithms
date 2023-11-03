@@ -42,80 +42,177 @@ void populateDisorderedVector(std::vector<int> &disorderedVector, int size)
 		disorderedVector.push_back(i);
 } 
 
-void displayQuantityMenu()
+template<typename Option>
+MenuReturns displayOptionMenu(
+	std::string title, 
+	std::vector<Option> &optionsSelected, 
+	std::map<Option, std::string> &optionsMap
+	)	
 {
 	using namespace std;
 
-	cout << "Select the quantity to be analysed: " << endl; 
-	cout << "1. 1.000" << endl; 
-	cout << "2. 10.000" << endl; 
-	cout << "3. 100.00" << endl;
-	cout << "4. All" << endl;
+	cout << title;
+
+	for(const Option &optionSelected: optionsSelected)
+	{
+		cout << " | " << optionsMap[optionSelected];
+	}
+
+	cout << endl;
+
+	int i, j, tempOption, allSelected, allClear;
+
+	for (i = 0; i < optionsMap.size(); i++)
+	{
+		cout << i+1 << ". ";
+		cout << optionsMap[static_cast<Option>(i)] << endl;
+	}
+
+	i++;
+	allSelected = i;
+	cout << allSelected << ". All" << endl;
+
+	i++;
+	allClear = i;
+	cout << allClear << ". Clear" << endl;
+
+	i++;
+
+	for (j = 0; j < menuOptions.size(); j++)
+	{
+		cout << j+i << ". ";
+		cout << menuOptions[static_cast<MenuReturns>(j)] << endl;
+	}
+	 
 	cout << "Selected:";
 	cin >> tempOption; 
-	selectedQuantity = static_cast<QuantityOptions>(tempOption);
-	menu = Menu::ORDER;
+
+	if(tempOption < 1 || tempOption > (optionsMap.size()+menuOptions.size()+2))
+		throw std::invalid_argument("This option does not exists");
+
+
+	if(tempOption > optionsMap.size()+2)
+	{
+		MenuReturns selectedReturn = static_cast<MenuReturns>(tempOption-(optionsMap.size()+menuOptions.size()+1));
+		if(selectedReturn==MenuReturns::GO_NEXT && optionsSelected.empty()) return MenuReturns::STAY;
+		return selectedReturn;
+	}
+
+	Option selectedOption = static_cast<Option>(tempOption-1);
+
+	if(tempOption == allSelected)
+	{
+		optionsSelected.clear();
+		for(i=0; i<optionsMap.size(); i++)
+			optionsSelected.push_back(static_cast<Option>(i));
+	}
+	else if (tempOption == allClear)
+	{
+		optionsSelected.clear();
+	}
+	else if(!optionsSelected.empty())
+	{
+		auto position = std::find(optionsSelected.begin(), optionsSelected.end(), selectedOption);
+		
+		if(position == optionsSelected.end())
+			optionsSelected.push_back(selectedOption);
+		else
+			optionsSelected.erase(position);
+	}
+	else
+		optionsSelected.push_back(selectedOption);
+
+	return MenuReturns::STAY;
 }
 
-void displayOrdersMenu()
+
+MenuReturns displayStartMenu()
 {
 	using namespace std;
 
-	cout << "Select the order to be analysed: " << endl; 
-	cout << "1. Ordered" << endl; 
-	cout << "2. Random" << endl; 
-	cout << "3. Disordered" << endl;
-	cout << "4. All" << endl;
-	cout << "5. Back" << endl;
+	cout << "Selected options will be run do you wish to procede:" << endl;
+	cout << "1. Yes" << endl;
+	cout << "2. No" << endl;
 	cout << "Selected:";
-	cin >> tempOption; 
-	selectedOrder = static_cast<OrderOptions>(tempOption);
-	menu = selectedOrder != OrderOptions::BACK_ORDERS ? Menu::ALGORITHM : Menu::QUANTITY;
+	cin >> tempOption;
+
+	if(tempOption < 1 || tempOption > 2)
+		throw std::invalid_argument("");
+
+	if (tempOption == 1) return MenuReturns::GO_NEXT;
+	else return MenuReturns::GO_BACK;
 }
 
-void displayAlgorithmMenu()
+void executeProgram()
 {
-	using namespace std;
-
-	cout << "Select the Algorithm to be analysed: " << endl; 
-	cout << "1. Bubble Sort" << endl; 
-	cout << "2. Improved Bubble Sort" << endl; 
-	cout << "3. Insertion Sort" << endl;
-	cout << "4. Selection Sort" << endl;
-	cout << "5. Merge Sort" << endl;
-	cout << "6. Quick Sort" << endl;
-	cout << "7. Heap Sort" << endl;
-	cout << "8. All" << endl;
-	cout << "9. Back" << endl;
-	cout << "Selected:";
-	cin >> tempOption; 
-	selectedAlgorithm = static_cast<AlgorithmOptions>(tempOption);
-	cout << selectedAlgorithm;
-	menu = selectedAlgorithm != AlgorithmOptions::BACK_ALGORITHMS ? Menu::QUANTITY : Menu::ORDER;
+	
 }
+
+void goNextMenu()
+{
+	if(currentMenu == Menu::START)
+		currentMenu = Menu::QUANTITY;
+	else
+		currentMenu = static_cast<Menu>(currentMenu+1);
+}
+
+void goBackMenu()
+{
+	if(currentMenu != Menu::QUANTITY)
+		currentMenu = static_cast<Menu>(currentMenu-1);
+}
+
 
 
 int main(int argc, char** argv) 
 {
 	while (true)
 	{
-		system("cls");
-		switch (menu)
+		try
 		{
-		case Menu::QUANTITY:
-			displayQuantityMenu();
-			break;
+			std::cin.clear();
+			fflush(stdin);
 
-		case Menu::ORDER:
-			displayOrdersMenu();
-			break;
+			switch (currentMenu)
+			{
+			case Menu::QUANTITY:
+				menuReturn = displayOptionMenu(
+					"Select the quantity: ", 
+					selectedQuantities, quantitiesOptions);
+				break;
 
-		case Menu::ALGORITHM:
-			displayAlgorithmMenu();
-			break;
+			case Menu::ORDER:
+				menuReturn = displayOptionMenu(
+					"Select the Orders: ",
+					selectedOrders, ordersOptions);
+				break;
 
-		default:
-			break;
+			case Menu::ALGORITHM:
+				menuReturn = displayOptionMenu(
+					"Select the Algorithms: ", 
+					selectedAlgorithms, algorithmOptions);
+				break;
+
+			case Menu::START:
+				menuReturn = displayStartMenu();
+				if (menuReturn) executeProgram();
+				break;
+
+			default:
+				std::cout << "Menu does not exists" << std::endl;
+				currentMenu = Menu::QUANTITY;
+				break;
+			}
+
+			std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
+
+			if(menuReturn == MenuReturns::GO_NEXT && currentMenu == Menu::START) break;
+			else if (menuReturn == MenuReturns::GO_NEXT) goNextMenu();
+			else if (menuReturn == MenuReturns::GO_BACK) goBackMenu();
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << "Miss input please restart the program" << std::endl;
 		}
 	}
 	return 0;
