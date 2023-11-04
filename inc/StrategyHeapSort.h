@@ -6,9 +6,9 @@
 class StrategyHeapSort : public StrategyIListSort
 {
     public:
-	    std::vector<int> doSortAlgorithm(std::vector<int> toSort) override;
+	    std::vector<int> doSortAlgorithm(std::vector<int> toSort, unsigned long long &comparisons, unsigned long long &exchanges) override;
     private:
-        void heapify(std::vector<int>& arr, int n, int root);
+        void heapify(std::vector<int>& arr, int n, int root, unsigned long long &comparisons, unsigned long long &exchanges);
 };
 
 #endif

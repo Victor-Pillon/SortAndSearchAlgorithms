@@ -7,14 +7,7 @@ class StrategyIListSort
 {
 	public:
 		virtual ~StrategyIListSort() = default;
-		virtual std::vector<int> doSortAlgorithm(std::vector<int> toSort) = 0;
-
-		int getComparisons() {return comparisons;};
-		int getExchanges() {return exchanges;};
-		
-	protected:
-		int comparisons;
-		int exchanges;
+		virtual std::vector<int> doSortAlgorithm(std::vector<int> toSort, unsigned long long &comparisons, unsigned long long &exchanges) = 0;
 };
 
 #endif

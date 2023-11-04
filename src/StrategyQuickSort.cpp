@@ -1,6 +1,6 @@
 #include "StrategyQuickSort.h"
 
-std::vector<int> StrategyQuickSort::doSortAlgorithm(std::vector<int> toSort) {
+std::vector<int> StrategyQuickSort::doSortAlgorithm(std::vector<int> toSort, unsigned long long &comparisons, unsigned long long &exchanges) {
     if (toSort.size() <= 1) {
         return toSort;
     }
@@ -14,7 +14,7 @@ std::vector<int> StrategyQuickSort::doSortAlgorithm(std::vector<int> toSort) {
         int low = stack.top().first;
         int high = stack.top().second;
         stack.pop();
-        int pivotIndex = partition(toSort, low, high);
+        int pivotIndex = partition(toSort, low, high, comparisons, exchanges);
 
         comparisons++;
         if (low < pivotIndex - 1) {
@@ -32,7 +32,7 @@ std::vector<int> StrategyQuickSort::doSortAlgorithm(std::vector<int> toSort) {
     return toSort;
 }
 
-int StrategyQuickSort::partition(std::vector<int>& arr, int low, int high) {
+int StrategyQuickSort::partition(std::vector<int>& arr, int low, int high, unsigned long long &comparisons, unsigned long long &exchanges) {
     exchanges += 2;
     int pivot = arr[high];
     int i = low - 1;

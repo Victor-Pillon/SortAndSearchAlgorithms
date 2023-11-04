@@ -1,7 +1,7 @@
 #include "StrategyImprovedBubbleSort.h"
 
 
-std::vector<int> StrategyImprovedBubbleSort::doSortAlgorithm(std::vector<int> toSort)
+std::vector<int> StrategyImprovedBubbleSort::doSortAlgorithm(std::vector<int> toSort, unsigned long long &comparisons, unsigned long long &exchanges)
 {   
     exchanges = 0;
     comparisons = 0;

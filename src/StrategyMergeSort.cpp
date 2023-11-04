@@ -1,6 +1,6 @@
 #include "StrategyMergeSort.h"
 
-std::vector<int> StrategyMergeSort::doSortAlgorithm(std::vector<int> toSort) {
+std::vector<int> StrategyMergeSort::doSortAlgorithm(std::vector<int> toSort, unsigned long long &comparisons, unsigned long long &exchanges) {
 
     exchanges = 0;
     comparisons = 0;
@@ -17,14 +17,14 @@ std::vector<int> StrategyMergeSort::doSortAlgorithm(std::vector<int> toSort) {
 
     // Recursively sort the two halves
     exchanges += 2;
-    left = doSortAlgorithm(left);
-    right = doSortAlgorithm(right);
+    left = doSortAlgorithm(left, comparisons, exchanges);
+    right = doSortAlgorithm(right, comparisons, exchanges);
 
     // Merge the sorted halves
-    return merge(left, right);
+    return merge(left, right, comparisons, exchanges);
 }
 
-std::vector<int> StrategyMergeSort::merge(const std::vector<int>& left, const std::vector<int>& right) {
+std::vector<int> StrategyMergeSort::merge(const std::vector<int>& left, const std::vector<int>& right, unsigned long long &comparisons, unsigned long long &exchanges) {
     std::vector<int> result;
     int i = 0, j = 0;
 

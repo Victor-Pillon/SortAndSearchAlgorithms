@@ -1,6 +1,6 @@
 #include "StrategyInsertionSort.h"
 
-std::vector<int> StrategyInsertionSort::doSortAlgorithm(std::vector<int> toSort)
+std::vector<int> StrategyInsertionSort::doSortAlgorithm(std::vector<int> toSort, unsigned long long &comparisons, unsigned long long &exchanges)
 {
     exchanges = 0;
     comparisons = 0;
