@@ -1,13 +1,5 @@
 #include "Defines.h"
 
-void printVector(std::vector<int> vec)
-{
-	for (int i=0; i<vec.size(); i++)
-	{
-		std::cout << "positon: " << i << " | " << "value: " << vec.at(i) << std::endl;
-	}
-	std::cout << std::endl;
-}
 
 void populateRandomVector(std::vector<int> &randomVector, int size)
 {
@@ -38,8 +30,8 @@ void populateDisorderedVector(std::vector<int> &disorderedVector, int size)
 {
 	disorderedVector.clear();
 
-	for(int i=size; i>size; i--)
-		disorderedVector.push_back(i);
+	for(int i=0; i<size; i++)
+		disorderedVector.push_back(size-i);
 } 
 
 template<typename Option>
@@ -130,6 +122,8 @@ MenuReturns displayStartMenu()
 {
 	using namespace std;
 
+	int tempOption;
+
 	cout << "Selected options will be run do you wish to procede:" << endl;
 	cout << "1. Yes" << endl;
 	cout << "2. No" << endl;
@@ -145,7 +139,60 @@ MenuReturns displayStartMenu()
 
 void executeProgram()
 {
-	
+	using namespace std;
+
+	for(const QuantityOptions &selectedQuantity: selectedQuantities)
+	{
+		for(const OrderOptions &selectedOrder: selectedOrders)
+		{
+			for(const AlgorithmOptions &selectedAlgorithm: selectedAlgorithms)
+			{
+				ContextListSort sorterContext;
+				ProxyListSortTimer *sortProxy;
+				std::vector<int> toSortVector;
+				StrategyIListSort *toUseStrategy;
+				mapOrders[selectedOrder](toSortVector, mapQuantities[selectedQuantity]);
+				switch (selectedAlgorithm)
+				{
+				case AlgorithmOptions::BUBBLE_SORT:
+					toUseStrategy = new StrategyBubbleSort();
+					break;
+				case AlgorithmOptions::IMPROVED_BUBBLE_SORT:
+					toUseStrategy = new StrategyImprovedBubbleSort();
+					break;
+				case AlgorithmOptions::INSERTION_SORT:
+					toUseStrategy = new StrategyInsertionSort();
+					break;
+				case AlgorithmOptions::SELECTION_SORT:
+					toUseStrategy = new StrategySelectionSort();
+					break;
+				case AlgorithmOptions::MERGE_SORT:
+					toUseStrategy = new StrategyMergeSort();
+					break;
+				case AlgorithmOptions::QUICK_SORT:
+					toUseStrategy = new StrategyQuickSort();
+					break;
+				case AlgorithmOptions::HEAP_SORT:
+					toUseStrategy = new StrategyHeapSort();
+					break;
+				}
+
+				sortProxy = new ProxyListSortTimer( std::unique_ptr<StrategyIListSort>(toUseStrategy));
+				unsigned long long comparisons, exchanges;
+
+				std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
+				cout << "Running Algorithm: " << algorithmOptions[selectedAlgorithm] << endl;
+				cout << "Vector type: " << ordersOptions[selectedOrder] << endl;
+				cout << "Vector size: " << toSortVector.size() << endl;
+				sorterContext.setStrategy(std::unique_ptr<StrategyIListSort>(sortProxy));
+				sorterContext.sortedVector(toSortVector, comparisons, exchanges);
+				cout << "Took: " << sortProxy->getExecutionTime() << " nanoseconds" << endl;
+				cout << "Made: " << exchanges << " exchanges" << endl;
+				cout << "Made: " << comparisons << " comparisons" << endl;
+
+			}
+		}
+	}
 }
 
 void goNextMenu()
@@ -163,9 +210,9 @@ void goBackMenu()
 }
 
 
-
 int main(int argc, char** argv) 
 {
+	MenuReturns menuReturn;
 	while (true)
 	{
 		try
@@ -195,7 +242,7 @@ int main(int argc, char** argv)
 
 			case Menu::START:
 				menuReturn = displayStartMenu();
-				if (menuReturn) executeProgram();
+				if (menuReturn == MenuReturns::GO_NEXT) executeProgram();
 				break;
 
 			default:
@@ -204,16 +251,15 @@ int main(int argc, char** argv)
 				break;
 			}
 
-			std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
-
 			if(menuReturn == MenuReturns::GO_NEXT && currentMenu == Menu::START) break;
 			else if (menuReturn == MenuReturns::GO_NEXT) goNextMenu();
 			else if (menuReturn == MenuReturns::GO_BACK) goBackMenu();
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << "Miss input please restart the program" << std::endl;
+			std::cerr << "Unkown input try again" << std::endl;
 		}
+		std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
 	}
 	return 0;
 }
