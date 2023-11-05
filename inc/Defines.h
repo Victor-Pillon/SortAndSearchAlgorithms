@@ -8,6 +8,7 @@
 #include <map>
 #include <algorithm>
 #include <functional>
+#include <fstream>
 
 #include "ContextListSearch.h"
 #include "ContextListSort.h"

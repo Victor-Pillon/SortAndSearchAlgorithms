@@ -141,6 +141,10 @@ void executeProgram()
 {
 	using namespace std;
 
+	ofstream outputFile("out.csv");
+	if(outputFile.is_open())
+		outputFile << "Algorithm,Order,Quantity,Execution,Exchanges,Comparisons" << endl;
+
 	for(const QuantityOptions &selectedQuantity: selectedQuantities)
 	{
 		for(const OrderOptions &selectedOrder: selectedOrders)
@@ -177,22 +181,36 @@ void executeProgram()
 					break;
 				}
 
-				sortProxy = new ProxyListSortTimer( std::unique_ptr<StrategyIListSort>(toUseStrategy));
+				sortProxy = new ProxyListSortTimer( unique_ptr<StrategyIListSort>(toUseStrategy));
 				unsigned long long comparisons, exchanges;
+				int64_t exectionTime;
 
-				std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << std::endl;
+				cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
 				cout << "Running Algorithm: " << algorithmOptions[selectedAlgorithm] << endl;
 				cout << "Vector type: " << ordersOptions[selectedOrder] << endl;
 				cout << "Vector size: " << toSortVector.size() << endl;
 				sorterContext.setStrategy(std::unique_ptr<StrategyIListSort>(sortProxy));
 				sorterContext.sortedVector(toSortVector, comparisons, exchanges);
-				cout << "Took: " << sortProxy->getExecutionTime() << " nanoseconds" << endl;
+				exectionTime = sortProxy->getExecutionTime();
+				cout << "Took: " << exectionTime << " nanoseconds" << endl;
 				cout << "Made: " << exchanges << " exchanges" << endl;
 				cout << "Made: " << comparisons << " comparisons" << endl;
+
+				if(outputFile.is_open())
+				{
+					outputFile << algorithmOptions[selectedAlgorithm] << ',';
+					outputFile << ordersOptions[selectedOrder] << ',';
+					outputFile << toSortVector.size() << ',';
+					outputFile << exectionTime << ',';
+					outputFile << exchanges << ',';
+					outputFile << comparisons << ',';
+					outputFile << endl;
+				}
 
 			}
 		}
 	}
+	if(outputFile.is_open()) outputFile.close();
 }
 
 void goNextMenu()
